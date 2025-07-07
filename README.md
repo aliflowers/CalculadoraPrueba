@@ -15,7 +15,180 @@ API Backend desarrollada con Node.js, Express, JWT y PostgreSQL para una calcula
 
 ## 📋 Requisitos
 
-- Node.js >= 16.0.0
+## 🖥️ Frontend - Calculadora Científica
+
+El frontend ha sido implementado como una aplicación web moderna con HTML, CSS y JavaScript embebidos en un solo archivo (`public/index.html`).
+
+### 🌟 Características del Frontend
+
+- **Calculadora Científica Completa**: Operaciones básicas y científicas (trigonométricas, logarítmicas, exponenciales)
+- **Interfaz Responsive**: Diseño adaptativo para móviles y escritorio
+- **Modo Básico y Científico**: Alterna entre vista simple y completa
+- **Funciones de Memoria**: M+, M-, MR, MC para almacenamiento temporal
+- **Soporte para Teclado**: Navegación y operación con teclado
+- **Diseño Moderno**: Interfaz intuitiva con efectos visuales y tooltips
+- **Completamente Autónomo**: Todo embebido en un solo archivo HTML
+
+### 📁 Estructura del Proyecto
+
+```
+CalculadoraPrueba/
+├── public/
+│   └── index.html          # Frontend de la calculadora científica
+├── src/
+│   ├── server.js           # Servidor Express configurado
+│   ├── routes/
+│   │   ├── operations.js   # Rutas API para operaciones
+│   │   └── auth.js         # Rutas de autenticación
+│   └── middleware/
+├── sql/                    # Scripts de base de datos
+├── package.json
+├── render.yaml            # Configuración para Render
+├── Procfile              # Configuración para Railway/Heroku
+└── README.md
+```
+
+## 🚀 Despliegue en Render
+
+### Paso 1: Preparación del Repositorio
+✅ **COMPLETADO** - El repositorio ya está configurado con:
+- Carpeta `public/` con frontend completo
+- `server.js` configurado para servir archivos estáticos
+- `render.yaml` configurado
+- Variables de entorno en `.env.example`
+
+### Paso 2: Configuración en Render
+
+1. **Crear cuenta en Render**: Ve a [render.com](https://render.com) y regístrate
+2. **Conectar GitHub**: Autoriza Render para acceder a tus repositorios
+3. **Crear nuevo Web Service**:
+   - Selecciona este repositorio: `aliflowers/CalculadoraPrueba`
+   - Runtime: `Node`
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+
+### Paso 3: Variables de Entorno
+
+Configura estas variables en el dashboard de Render:
+
+```env
+NODE_ENV=production
+PORT=5000
+DATABASE_URL=postgresql://username:password@hostname:port/database
+JWT_SECRET=tu_jwt_secret_muy_seguro_aqui
+FRONTEND_URL=https://tu-app.onrender.com
+```
+
+### Paso 4: Base de Datos PostgreSQL
+
+1. **Crear base de datos en Render**:
+   - Ir a Dashboard → New → PostgreSQL
+   - Crear nueva instancia gratuita
+   - Copiar la URL de conexión
+
+2. **Configurar DATABASE_URL**:
+   - Usar la URL completa proporcionada por Render
+   - Formato: `postgresql://user:password@hostname:port/database`
+
+### Paso 5: Despliegue Automático
+
+1. **Push al repositorio**: Los cambios se despliegan automáticamente
+2. **Verificar logs**: Revisa los logs en el dashboard de Render
+3. **Acceder a la aplicación**: 
+   - Backend API: `https://tu-app.onrender.com/api/`
+   - Frontend: `https://tu-app.onrender.com/` (Calculadora científica)
+
+## 🌐 URLs de Acceso
+
+- **Frontend (Calculadora)**: `https://tu-app.onrender.com/`
+- **API Health Check**: `https://tu-app.onrender.com/health`
+- **API Operations**: `https://tu-app.onrender.com/api/operations`
+- **API Auth**: `https://tu-app.onrender.com/api/auth`
+
+## 🔧 Configuración del Servidor
+
+El servidor Express está configurado para:
+
+```javascript
+// Servir archivos estáticos desde public/
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Ruta principal para el frontend
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// APIs bajo el prefijo /api/
+app.use('/api/operations', operationsRoutes);
+app.use('/api/auth', authRoutes);
+```
+
+## ✅ Verificación del Despliegue
+
+Después del despliegue, verifica:
+
+1. **Frontend funcionando**: Accede a la URL principal y usa la calculadora
+2. **API disponible**: Prueba `https://tu-app.onrender.com/health`
+3. **Base de datos conectada**: Verifica que las operaciones se guarden
+4. **CORS configurado**: Frontend y API funcionan juntos
+5. **Rate limiting activo**: Protección contra abuso
+
+## 🛠️ Desarrollo Local
+
+Para ejecutar el proyecto completo localmente:
+
+```bash
+# 1. Instalar dependencias
+npm install
+
+# 2. Configurar variables de entorno
+cp .env.example .env
+
+# 3. Iniciar servidor de desarrollo
+npm run dev
+
+# 4. Acceder a:
+# - Frontend: http://localhost:5000/
+# - API: http://localhost:5000/api/
+```
+
+## 📱 Uso de la Calculadora
+
+### Funciones Básicas
+- **Operaciones**: +, -, ×, ÷
+- **Decimales**: Punto decimal
+- **Porcentajes**: % 
+- **Cambio de signo**: ±
+
+### Funciones Científicas
+- **Trigonométricas**: sin, cos, tan
+- **Logarítmicas**: log, ln
+- **Exponenciales**: x², x³, xʸ
+- **Raíces**: √, ∛
+- **Constantes**: π, e
+
+### Funciones de Memoria
+- **M+**: Sumar a memoria
+- **M-**: Restar de memoria  
+- **MR**: Recuperar de memoria
+- **MC**: Limpiar memoria
+
+## 🔄 Integración API + Frontend
+
+El frontend puede integrarse con las APIs del backend para:
+
+1. **Historial de Operaciones**: Guardar cálculos en la base de datos
+2. **Usuarios**: Sistema de login y sesiones
+3. **Estadísticas**: Análisis de uso de funciones
+4. **Configuraciones**: Preferencias personalizadas
+
+## 🎯 Próximos Pasos
+
+- [ ] Integrar autenticación en el frontend
+- [ ] Conectar historial de operaciones con la API
+- [ ] Agregar gráficos de funciones matemáticas
+- [ ] Implementar modo offline con Service Worker
+- [ ] Agregar más funciones científicas avanzadas- Node.js >= 16.0.0
 - PostgreSQL >= 12
 - npm o yarn
 
