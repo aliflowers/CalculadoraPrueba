@@ -5,10 +5,8 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 // Importar rutas
-const authRoutes = require('./routes/auth');
-const operationsRoutes = require('./routes/operations');
-
-const app = express();
+const path = require('path');const operationsRoutes = require('./routes/operations');
+const authRoutes = require('./routes/auth');const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware de seguridad
@@ -56,12 +54,15 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path} - IP: ${req.ip}`);
   next();
-});
 
+// Servir archivos estáticos desde la carpeta public
+app.use(express.static(path.join(__dirname, '../public')));
 // Rutas principales
-app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/operations', operationsRoutes);
-
+// Ruta principal para servir el frontend
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 // Ruta de salud del servidor
 app.get('/health', (req, res) => {
   res.json({
