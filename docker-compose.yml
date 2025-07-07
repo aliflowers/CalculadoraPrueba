@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Base de datos PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: calculator_postgres
+    environment:
+      POSTGRES_DB: calculator_db
+      POSTGRES_USER: calculator_user
+      POSTGRES_PASSWORD: calculator_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U calculator_user -d calculator_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend API
+  api:
+    build: .
+    container_name: calculator_backend
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      DATABASE_URL: postgresql://calculator_user:calculator_password@postgres:5432/calculator_db
+      JWT_SECRET: desarrollo_jwt_secret_no_usar_en_produccion
+      JWT_EXPIRES_IN: 7d
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./src:/usr/src/app/src
+    command: npm run dev
+
+volumes:
+  postgres_data:
