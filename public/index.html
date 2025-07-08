@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora Científica Profesional</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.7.0/math.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -312,8 +313,8 @@
 
         <div class="mode-toggle">
             <div class="toggle-switch">
-                <div class="toggle-option active" onclick="switchMode('basic')">Básica</div>
-                <div class="toggle-option" onclick="switchMode('scientific')">Científica</div>
+                <div id="mode-basic" class="toggle-option active">Básica</div>
+                <div id="mode-scientific" class="toggle-option">Científica</div>
             </div>
         </div>
 
@@ -323,379 +324,64 @@
         </div>
 
         <div class="memory-section">
-            <button class="btn btn-memory tooltip" data-tooltip="Limpiar memoria" onclick="memoryClear()">MC</button>
-            <button class="btn btn-memory tooltip" data-tooltip="Recordar memoria" onclick="memoryRecall()">MR</button>
-            <button class="btn btn-memory tooltip" data-tooltip="Sumar a memoria" onclick="memoryAdd()">M+</button>
-            <button class="btn btn-memory tooltip" data-tooltip="Restar de memoria" onclick="memorySubtract()">M-</button>
+            <button id="btn-mc" class="btn btn-memory tooltip" data-tooltip="Limpiar memoria">MC</button>
+            <button id="btn-mr" class="btn btn-memory tooltip" data-tooltip="Recordar memoria">MR</button>
+            <button id="btn-m-plus" class="btn btn-memory tooltip" data-tooltip="Sumar a memoria">M+</button>
+            <button id="btn-m-minus" class="btn btn-memory tooltip" data-tooltip="Restar de memoria">M-</button>
         </div>
 
         <div class="scientific-panel" id="scientificPanel">
             <div class="button-grid">
-                <button class="btn btn-function tooltip" data-tooltip="Seno" onclick="scientificFunction('sin')">sin</button>
-                <button class="btn btn-function tooltip" data-tooltip="Coseno" onclick="scientificFunction('cos')">cos</button>
-                <button class="btn btn-function tooltip" data-tooltip="Tangente" onclick="scientificFunction('tan')">tan</button>
-                <button class="btn btn-function tooltip" data-tooltip="Logaritmo natural" onclick="scientificFunction('ln')">ln</button>
-                <button class="btn btn-function tooltip" data-tooltip="Logaritmo base 10" onclick="scientificFunction('log')">log</button>
+                <button id="btn-sin" class="btn btn-function tooltip" data-tooltip="Seno">sin</button>
+                <button id="btn-cos" class="btn btn-function tooltip" data-tooltip="Coseno">cos</button>
+                <button id="btn-tan" class="btn btn-function tooltip" data-tooltip="Tangente">tan</button>
+                <button id="btn-ln" class="btn btn-function tooltip" data-tooltip="Logaritmo natural">ln</button>
+                <button id="btn-log" class="btn btn-function tooltip" data-tooltip="Logaritmo base 10">log</button>
                 
-                <button class="btn btn-function tooltip" data-tooltip="Arco seno" onclick="scientificFunction('asin')">asin</button>
-                <button class="btn btn-function tooltip" data-tooltip="Arco coseno" onclick="scientificFunction('acos')">acos</button>
-                <button class="btn btn-function tooltip" data-tooltip="Arco tangente" onclick="scientificFunction('atan')">atan</button>
-                <button class="btn btn-function tooltip" data-tooltip="Exponencial" onclick="scientificFunction('exp')">e^x</button>
-                <button class="btn btn-function tooltip" data-tooltip="Potencia de 10" onclick="scientificFunction('10pow')">10^x</button>
+                <button id="btn-asin" class="btn btn-function tooltip" data-tooltip="Arco seno">asin</button>
+                <button id="btn-acos" class="btn btn-function tooltip" data-tooltip="Arco coseno">acos</button>
+                <button id="btn-atan" class="btn btn-function tooltip" data-tooltip="Arco tangente">atan</button>
+                <button id="btn-exp" class="btn btn-function tooltip" data-tooltip="Exponencial">e^x</button>
+                <button id="btn-10pow" class="btn btn-function tooltip" data-tooltip="Potencia de 10">10^x</button>
                 
-                <button class="btn btn-function tooltip" data-tooltip="Pi" onclick="insertConstant('pi')">π</button>
-                <button class="btn btn-function tooltip" data-tooltip="Euler" onclick="insertConstant('e')">e</button>
-                <button class="btn btn-function tooltip" data-tooltip="Raíz cuadrada" onclick="scientificFunction('sqrt')">√</button>
-                <button class="btn btn-function tooltip" data-tooltip="Potencia" onclick="inputOperator('^')">x^y</button>
-                <button class="btn btn-function tooltip" data-tooltip="Factorial" onclick="scientificFunction('fact')">x!</button>
+                <button id="btn-pi" class="btn btn-function tooltip" data-tooltip="Pi">π</button>
+                <button id="btn-e" class="btn btn-function tooltip" data-tooltip="Euler">e</button>
+                <button id="btn-sqrt" class="btn btn-function tooltip" data-tooltip="Raíz cuadrada">√</button>
+                <button id="btn-pow" class="btn btn-function tooltip" data-tooltip="Potencia">x^y</button>
+                <button id="btn-fact" class="btn btn-function tooltip" data-tooltip="Factorial">x!</button>
             </div>
         </div>
 
         <div class="button-grid">
-            <button class="btn btn-clear" onclick="clearAll()">AC</button>
-            <button class="btn btn-clear" onclick="clearEntry()">CE</button>
-            <button class="btn btn-operator" onclick="deleteLast()">⌫</button>
-            <button class="btn btn-operator" onclick="inputOperator('/')">/</button>
-            <button class="btn btn-function" onclick="toggleSign()">±</button>
+            <button id="btn-ac" class="btn btn-clear">AC</button>
+            <button id="btn-ce" class="btn btn-clear">CE</button>
+            <button id="btn-del" class="btn btn-operator">⌫</button>
+            <button id="btn-div" class="btn btn-operator">/</button>
+            <button id="btn-sign" class="btn btn-function">±</button>
 
-            <button class="btn btn-number" onclick="inputNumber('7')">7</button>
-            <button class="btn btn-number" onclick="inputNumber('8')">8</button>
-            <button class="btn btn-number" onclick="inputNumber('9')">9</button>
-            <button class="btn btn-operator" onclick="inputOperator('*')">×</button>
-            <button class="btn btn-function" onclick="inputOperator('(')">(</button>
+            <button id="btn-7" class="btn btn-number">7</button>
+            <button id="btn-8" class="btn btn-number">8</button>
+            <button id="btn-9" class="btn btn-number">9</button>
+            <button id="btn-mul" class="btn btn-operator">×</button>
+            <button id="btn-lpar" class="btn btn-function">(</button>
 
-            <button class="btn btn-number" onclick="inputNumber('4')">4</button>
-            <button class="btn btn-number" onclick="inputNumber('5')">5</button>
-            <button class="btn btn-number" onclick="inputNumber('6')">6</button>
-            <button class="btn btn-operator" onclick="inputOperator('-')">-</button>
-            <button class="btn btn-function" onclick="inputOperator(')')">)</button>
+            <button id="btn-4" class="btn btn-number">4</button>
+            <button id="btn-5" class="btn btn-number">5</button>
+            <button id="btn-6" class="btn btn-number">6</button>
+            <button id="btn-sub" class="btn btn-operator">-</button>
+            <button id="btn-rpar" class="btn btn-function">)</button>
 
-            <button class="btn btn-number" onclick="inputNumber('1')">1</button>
-            <button class="btn btn-number" onclick="inputNumber('2')">2</button>
-            <button class="btn btn-number" onclick="inputNumber('3')">3</button>
-            <button class="btn btn-operator" onclick="inputOperator('+')">+</button>
-            <button class="btn btn-function" onclick="inputDecimal()">.</button>
+            <button id="btn-1" class="btn btn-number">1</button>
+            <button id="btn-2" class="btn btn-number">2</button>
+            <button id="btn-3" class="btn btn-number">3</button>
+            <button id="btn-add" class="btn btn-operator">+</button>
+            <button id="btn-dot" class="btn btn-function">.</button>
 
-            <button class="btn btn-number btn-zero" onclick="inputNumber('0')">0</button>
-            <button class="btn btn-equals" onclick="calculate()">=</button>
+            <button id="btn-0" class="btn btn-number btn-zero">0</button>
+            <button id="btn-eq" class="btn btn-equals">=</button>
         </div>
     </div>
 
-    <script>
-        let display = document.getElementById('display');
-        let history = document.getElementById('history');
-        let currentInput = '0';
-        let shouldResetDisplay = false;
-        let memory = 0;
-        let lastOperation = '';
-        let isDegreeMode = true;
-
-        // Funciones de entrada
-        function inputNumber(num) {
-            addRippleEffect(event.target);
-            if (shouldResetDisplay || currentInput === '0') {
-                currentInput = num;
-                shouldResetDisplay = false;
-            } else {
-                currentInput += num;
-            }
-            updateDisplay();
-        }
-
-        function inputOperator(op) {
-            addRippleEffect(event.target);
-            if (currentInput === '' || currentInput === '0') return;
-            
-            if (op === '^') {
-                currentInput += '**';
-            } else if (op === '*') {
-                currentInput += '*';
-            } else {
-                currentInput += op;
-            }
-            updateDisplay();
-        }
-
-        function inputDecimal() {
-            addRippleEffect(event.target);
-            if (shouldResetDisplay) {
-                currentInput = '0.';
-                shouldResetDisplay = false;
-            } else if (!currentInput.includes('.')) {
-                currentInput += '.';
-            }
-            updateDisplay();
-        }
-
-        // Funciones de limpieza
-        function clearAll() {
-            addRippleEffect(event.target);
-            currentInput = '0';
-            history.textContent = '';
-            updateDisplay();
-        }
-
-        function clearEntry() {
-            addRippleEffect(event.target);
-            currentInput = '0';
-            updateDisplay();
-        }
-
-        function deleteLast() {
-            addRippleEffect(event.target);
-            if (currentInput.length > 1) {
-                currentInput = currentInput.slice(0, -1);
-            } else {
-                currentInput = '0';
-            }
-            updateDisplay();
-        }
-
-        function toggleSign() {
-            addRippleEffect(event.target);
-            if (currentInput !== '0') {
-                if (currentInput.startsWith('-')) {
-                    currentInput = currentInput.substring(1);
-                } else {
-                    currentInput = '-' + currentInput;
-                }
-                updateDisplay();
-            }
-        }
-
-        // Funciones científicas
-        function scientificFunction(func) {
-            addRippleEffect(event.target);
-            try {
-                let value = parseFloat(currentInput);
-                let result;
-
-                switch (func) {
-                    case 'sin':
-                        result = Math.sin(isDegreeMode ? value * Math.PI / 180 : value);
-                        break;
-                    case 'cos':
-                        result = Math.cos(isDegreeMode ? value * Math.PI / 180 : value);
-                        break;
-                    case 'tan':
-                        result = Math.tan(isDegreeMode ? value * Math.PI / 180 : value);
-                        break;
-                    case 'asin':
-                        result = Math.asin(value);
-                        if (isDegreeMode) result = result * 180 / Math.PI;
-                        break;
-                    case 'acos':
-                        result = Math.acos(value);
-                        if (isDegreeMode) result = result * 180 / Math.PI;
-                        break;
-                    case 'atan':
-                        result = Math.atan(value);
-                        if (isDegreeMode) result = result * 180 / Math.PI;
-                        break;
-                    case 'ln':
-                        result = Math.log(value);
-                        break;
-                    case 'log':
-                        result = Math.log10(value);
-                        break;
-                    case 'exp':
-                        result = Math.exp(value);
-                        break;
-                    case '10pow':
-                        result = Math.pow(10, value);
-                        break;
-                    case 'sqrt':
-                        result = Math.sqrt(value);
-                        break;
-                    case 'fact':
-                        result = factorial(value);
-                        break;
-                }
-
-                if (isNaN(result) || !isFinite(result)) {
-                    throw new Error('Resultado inválido');
-                }
-
-                history.textContent = `${func}(${currentInput}) =`;
-                currentInput = formatResult(result);
-                shouldResetDisplay = true;
-                updateDisplay();
-            } catch (error) {
-                showError('Error en cálculo');
-            }
-        }
-
-        function factorial(n) {
-            if (n < 0 || n !== Math.floor(n)) throw new Error('Factorial de número negativo o decimal');
-            if (n > 170) throw new Error('Número demasiado grande');
-            let result = 1;
-            for (let i = 2; i <= n; i++) {
-                result *= i;
-            }
-            return result;
-        }
-
-        function insertConstant(constant) {
-            addRippleEffect(event.target);
-            if (shouldResetDisplay || currentInput === '0') {
-                currentInput = constant === 'pi' ? Math.PI.toString() : Math.E.toString();
-                shouldResetDisplay = false;
-            } else {
-                currentInput += constant === 'pi' ? Math.PI.toString() : Math.E.toString();
-            }
-            updateDisplay();
-        }
-
-        // Funciones de memoria
-        function memoryClear() {
-            addRippleEffect(event.target);
-            memory = 0;
-            showTemporaryMessage('Memoria limpiada');
-        }
-
-        function memoryRecall() {
-            addRippleEffect(event.target);
-            currentInput = memory.toString();
-            shouldResetDisplay = true;
-            updateDisplay();
-        }
-
-        function memoryAdd() {
-            addRippleEffect(event.target);
-            try {
-                memory += parseFloat(currentInput);
-                showTemporaryMessage('Agregado a memoria');
-            } catch (error) {
-                showError('Error al agregar a memoria');
-            }
-        }
-
-        function memorySubtract() {
-            addRippleEffect(event.target);
-            try {
-                memory -= parseFloat(currentInput);
-                showTemporaryMessage('Sustraído de memoria');
-            } catch (error) {
-                showError('Error al sustraer de memoria');
-            }
-        }
-
-        // Función de cálculo principal
-        function calculate() {
-            addRippleEffect(event.target);
-            try {
-                let expression = currentInput.replace(/\*\*/g, '^');
-                history.textContent = expression + ' =';
-                
-                // Reemplazar operadores para evaluación
-                let evalExpression = currentInput.replace(/\^/g, '**');
-                
-                // Evaluar expresión de forma segura
-                let result = Function('"use strict"; return (' + evalExpression + ')')();
-                
-                if (isNaN(result) || !isFinite(result)) {
-                    throw new Error('Resultado inválido');
-                }
-
-                currentInput = formatResult(result);
-                shouldResetDisplay = true;
-                updateDisplay();
-            } catch (error) {
-                showError('Error de sintaxis');
-            }
-        }
-
-        // Funciones de utilidad
-        function updateDisplay() {
-            display.value = currentInput;
-            display.classList.remove('error');
-        }
-
-        function showError(message) {
-            display.value = message;
-            display.classList.add('error');
-            currentInput = '0';
-            shouldResetDisplay = true;
-            setTimeout(() => {
-                updateDisplay();
-            }, 2000);
-        }
-
-        function formatResult(result) {
-            if (Math.abs(result) > 1e15 || (Math.abs(result) < 1e-15 && result !== 0)) {
-                return result.toExponential(6);
-            }
-            
-            let formatted = result.toString();
-            if (formatted.length > 12) {
-                return parseFloat(result.toPrecision(10)).toString();
-            }
-            return formatted;
-        }
-
-        function showTemporaryMessage(message) {
-            let originalText = history.textContent;
-            history.textContent = message;
-            setTimeout(() => {
-                history.textContent = originalText;
-            }, 1500);
-        }
-
-        function addRippleEffect(button) {
-            let ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-            
-            let rect = button.getBoundingClientRect();
-            let size = Math.max(rect.width, rect.height);
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = (event.clientX - rect.left - size / 2) + 'px';
-            ripple.style.top = (event.clientY - rect.top - size / 2) + 'px';
-            
-            button.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        }
-
-        function switchMode(mode) {
-            let options = document.querySelectorAll('.toggle-option');
-            let scientificPanel = document.getElementById('scientificPanel');
-            
-            options.forEach(option => option.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            if (mode === 'scientific') {
-                scientificPanel.classList.add('active');
-            } else {
-                scientificPanel.classList.remove('active');
-            }
-        }
-
-        // Soporte para teclado
-        document.addEventListener('keydown', function(event) {
-            const key = event.key;
-            
-            if (key >= '0' && key <= '9') {
-                inputNumber(key);
-            } else if (key === '+' || key === '-' || key === '*' || key === '/') {
-                inputOperator(key === '*' ? '*' : key);
-            } else if (key === '.') {
-                inputDecimal();
-            } else if (key === 'Enter' || key === '=') {
-                calculate();
-            } else if (key === 'Escape') {
-                clearAll();
-            } else if (key === 'Backspace') {
-                deleteLast();
-            } else if (key === '(' || key === ')') {
-                inputOperator(key);
-            }
-        });
-
-        // Inicialización
-        updateDisplay();
-    </script>
+    <script src="calculator.js"></script>
 </body>
 </html>
