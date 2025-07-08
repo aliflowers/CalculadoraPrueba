@@ -49,5 +49,5 @@ SELECT table_name FROM information_schema.tables
 WHERE table_schema = 'public' AND table_type = 'BASE TABLE';
 
 -- Mostrar estructura de las tablas
-\d users;
-\d operations;
+-- \d users;
+-- \d operations;
