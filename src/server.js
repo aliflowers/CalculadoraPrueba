@@ -8,6 +8,7 @@ const path = require('path');
 // Importar rutas
 const operationsRoutes = require('./routes/operations');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -89,6 +90,7 @@ app.use('/api/auth', authLimiter); // Aplicar el limiter más estricto a las rut
 // Rutas API
 app.use('/api/operations', operationsRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 // Ruta de salud del servidor (para monitoreo)
 app.get('/health', (req, res) => {

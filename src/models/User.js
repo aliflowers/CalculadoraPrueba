@@ -31,6 +31,12 @@ class User {
   static async verifyPassword(password, hashedPassword) {
     return await bcrypt.compare(password, hashedPassword);
   }
+
+  static async findAll() {
+    const query = 'SELECT id, email, name, created_at FROM users';
+    const result = await pool.query(query);
+    return result.rows;
+  }
 }
 
 module.exports = User;
