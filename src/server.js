@@ -163,12 +163,17 @@ app.use((err, req, res, next) => {
 });
 
 // Iniciar servidor
-app.listen(PORT, '0.0.0.0', () => {
+const startServer = async () => {
+  await require('./config/initDb')();
+  app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Servidor iniciado en puerto ${PORT}`);
     console.log(`📱 Ambiente: ${process.env.NODE_ENV || 'development'}`);
     console.log(`🌐 URL: http://localhost:${PORT}`);
     console.log(`📋 Salud del servidor: http://localhost:${PORT}/health`);
-});
+  });
+};
+
+startServer();
 
 // Manejo de cierre graceful
 process.on('SIGTERM', () => {
