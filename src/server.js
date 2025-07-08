@@ -218,14 +218,7 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-// Rate limiting específico para autenticación
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 10, // máximo 10 intentos de login por IP
-  message: {
-    error: 'Demasiados intentos de autenticación',
-    message: 'Has excedido el límite de intentos de login. Intenta nuevamente en 15 minutos.'
-  }
+
 });
 
 // Middleware para parsing JSON
