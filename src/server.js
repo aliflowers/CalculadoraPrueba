@@ -219,7 +219,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 
-});
+);
 
 // Middleware para parsing JSON
 app.use(express.json({ limit: '10mb' }));
