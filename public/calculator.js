@@ -8,6 +8,12 @@ const calculator = {
   isDegreeMode: true,
 
   init() {
+    const token = localStorage.getItem('token');
+    if (!token && window.location.pathname !== '/login.html' && window.location.pathname !== '/register.html') {
+        window.location.href = '/login.html';
+        return;
+    }
+
     this.display = document.getElementById('display');
     this.history = document.getElementById('history');
     this.updateDisplay();
@@ -265,6 +271,10 @@ const calculator = {
   },
 
   addEventListeners() {
+    const logoutButton = document.getElementById('btn-logout');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => this.logout());
+    }
     document.getElementById('mode-basic').addEventListener('click', () => this.switchMode('basic'));
     document.getElementById('mode-scientific').addEventListener('click', () => this.switchMode('scientific'));
 
@@ -335,6 +345,11 @@ const calculator = {
             this.inputOperator(key);
         }
     });
+  },
+
+  logout() {
+    localStorage.removeItem('token');
+    window.location.href = '/login.html';
   }
 };
 

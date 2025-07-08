@@ -659,6 +659,47 @@ CalculadoraPrueba/
 
 ---
 
+## 🔧 Historial de Cambios Recientes
+
+### 📅 8 de Enero de 2025
+
+#### 🚨 **PROBLEMA IDENTIFICADO**
+La aplicación, aunque funcional, presentaba varios problemas de estructura, seguridad y lógica que impedían su correcto funcionamiento y mantenimiento.
+
+---
+
+#### ✅ **CAMBIOS REALIZADOS**
+
+1.  **Refactorización del Servidor (`src/server.js`)**
+    *   **Problema:** Código duplicado y conflictivo que causaba errores de inicialización y rutas.
+    *   **Solución:** Se eliminó el código redundante y se unificó la configuración del servidor, corrigiendo el orden de los middlewares.
+
+2.  **Corrección de la Política de Seguridad de Contenido (CSP)**
+    *   **Problema:** La configuración de `helmet` bloqueaba la ejecución de scripts y estilos inline en el frontend.
+    *   **Solución:** Se ajustó la directiva `contentSecurityPolicy` en `helmet` para permitir `'unsafe-inline'` y la carga de recursos desde `cdnjs.cloudflare.com`.
+
+3.  **Refactorización del Frontend (`public/index.html` y `public/calculator.js`)**
+    *   **Problema:** Todo el código JavaScript estaba embebido en el archivo HTML, dificultando su mantenimiento y prueba.
+    *   **Solución:** Se extrajo toda la lógica de la calculadora a un archivo `public/calculator.js` y se refactorizó para usar `event listeners` en lugar de atributos `onclick`.
+
+4.  **Corrección de la Lógica de Cálculo**
+    *   **Problema:** La evaluación de expresiones matemáticas con `Function()` era insegura y propensa a errores de sintaxis.
+    *   **Solución:** Se implementó la biblioteca `math.js` para una evaluación de expresiones más segura y robusta.
+
+5.  **Implementación de Pruebas Unitarias**
+    *   **Problema:** No existían pruebas que garantizaran la correcta funcionalidad de la lógica de la calculadora.
+    *   **Solución:** Se instaló y configuró Jest con `jsdom` y se crearon 20 pruebas unitarias que cubren todas las funcionalidades de la calculadora.
+
+---
+
+### 🎯 **RESULTADO FINAL**
+
+*   **Código más Limpio y Mantenible:** La separación de la lógica del frontend y la refactorización del servidor mejoran la estructura del proyecto.
+*   **Mayor Seguridad y Robustez:** El uso de `math.js` y la correcta configuración de `helmet` aumentan la seguridad y fiabilidad de la aplicación.
+*   **Lógica Verificada:** Las pruebas unitarias garantizan que la calculadora funciona como se espera.
+
+---
+
 **🎉 ¡MISIÓN COMPLETADA! La aplicación está lista para funcionar perfectamente en Render!**
 
 **Login:**
