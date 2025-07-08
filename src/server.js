@@ -53,8 +53,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Middleware de logging básico
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path} - IP: ${req.ip}`);
-  next();
-
+});
 // Servir archivos estáticos desde la carpeta public
 app.use(express.static(path.join(__dirname, '../public')));
 // Rutas principales
