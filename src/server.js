@@ -188,7 +188,7 @@ app.listen(PORT, () => {
     console.log(`📁 Sirviendo archivos estáticos desde: ${path.join(__dirname, '../public')}`);
     console.log(`🌐 Aplicación disponible en: http://localhost:${PORT}`);
     console.log(`📊 Health check disponible en: http://localhost:${PORT}/health`);
-}); express = require('express');
+}); 
 
 
 // Middleware de seguridad
