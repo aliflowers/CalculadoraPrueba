@@ -189,7 +189,6 @@ app.listen(PORT, () => {
     console.log(`🌐 Aplicación disponible en: http://localhost:${PORT}`);
     console.log(`📊 Health check disponible en: http://localhost:${PORT}/health`);
 }); express = require('express');
-const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
