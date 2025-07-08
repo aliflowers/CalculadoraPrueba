@@ -28,4 +28,674 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             padding: 30px;
-</style></title></head>
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .calculator-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .calculator-header h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .calculator-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .display-section {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .display {
+            background: transparent;
+            border: none;
+            color: #00ff41;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            text-align: right;
+            width: 100%;
+            height: 60px;
+            outline: none;
+            resize: none;
+            overflow: hidden;
+        }
+
+        .history {
+            color: #888;
+            font-size: 14px;
+            text-align: right;
+            margin-bottom: 10px;
+            min-height: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            height: 55px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-number {
+            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-number:hover {
+            background: linear-gradient(145deg, #e8e8e8, #d8d8d8);
+        }
+
+        .btn-operator {
+            background: linear-gradient(145deg, #ff6b6b, #ee5a5a);
+            color: white;
+        }
+
+        .btn-operator:hover {
+            background: linear-gradient(145deg, #ff5252, #e53935);
+        }
+
+        .btn-function {
+            background: linear-gradient(145deg, #4ecdc4, #45b7aa);
+            color: white;
+            font-size: 14px;
+        }
+
+        .btn-function:hover {
+            background: linear-gradient(145deg, #26a69a, #00897b);
+        }
+
+        .btn-equals {
+            background: linear-gradient(145deg, #51cf66, #40c057);
+            color: white;
+            grid-column: span 2;
+        }
+
+        .btn-equals:hover {
+            background: linear-gradient(145deg, #2b8a3e, #1c7430);
+        }
+
+        .btn-clear {
+            background: linear-gradient(145deg, #ffa726, #fb8c00);
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background: linear-gradient(145deg, #f57c00, #ef6c00);
+        }
+
+        .btn-zero {
+            grid-column: span 2;
+        }
+
+        .memory-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-memory {
+            background: linear-gradient(145deg, #7c4dff, #651fff);
+            color: white;
+            font-size: 12px;
+            height: 40px;
+        }
+
+        .btn-memory:hover {
+            background: linear-gradient(145deg, #6200ea, #4527a0);
+        }
+
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .toggle-switch {
+            background: #ddd;
+            border-radius: 25px;
+            padding: 5px;
+            display: flex;
+            width: 200px;
+        }
+
+        .toggle-option {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .toggle-option.active {
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .scientific-panel {
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .scientific-panel.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error {
+            color: #ff4444 !important;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calculator-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .btn {
+                height: 50px;
+                font-size: 14px;
+            }
+
+            .display {
+                font-size: 20px;
+                height: 50px;
+            }
+
+            .calculator-header h1 {
+                font-size: 24px;
+            }
+
+            .button-grid {
+                gap: 8px;
+            }
+        }
+
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .tooltip:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1><i class="fas fa-calculator"></i> Calculadora Científica</h1>
+            <p>Operaciones básicas y funciones avanzadas</p>
+        </div>
+
+        <div class="mode-toggle">
+            <div class="toggle-switch">
+                <div class="toggle-option active" onclick="switchMode('basic')">Básica</div>
+                <div class="toggle-option" onclick="switchMode('scientific')">Científica</div>
+            </div>
+        </div>
+
+        <div class="display-section">
+            <div class="history" id="history"></div>
+            <textarea class="display" id="display" readonly>0</textarea>
+        </div>
+
+        <div class="memory-section">
+            <button class="btn btn-memory tooltip" data-tooltip="Limpiar memoria" onclick="memoryClear()">MC</button>
+            <button class="btn btn-memory tooltip" data-tooltip="Recordar memoria" onclick="memoryRecall()">MR</button>
+            <button class="btn btn-memory tooltip" data-tooltip="Sumar a memoria" onclick="memoryAdd()">M+</button>
+            <button class="btn btn-memory tooltip" data-tooltip="Restar de memoria" onclick="memorySubtract()">M-</button>
+        </div>
+
+        <div class="scientific-panel" id="scientificPanel">
+            <div class="button-grid">
+                <button class="btn btn-function tooltip" data-tooltip="Seno" onclick="scientificFunction('sin')">sin</button>
+                <button class="btn btn-function tooltip" data-tooltip="Coseno" onclick="scientificFunction('cos')">cos</button>
+                <button class="btn btn-function tooltip" data-tooltip="Tangente" onclick="scientificFunction('tan')">tan</button>
+                <button class="btn btn-function tooltip" data-tooltip="Logaritmo natural" onclick="scientificFunction('ln')">ln</button>
+                <button class="btn btn-function tooltip" data-tooltip="Logaritmo base 10" onclick="scientificFunction('log')">log</button>
+                
+                <button class="btn btn-function tooltip" data-tooltip="Arco seno" onclick="scientificFunction('asin')">asin</button>
+                <button class="btn btn-function tooltip" data-tooltip="Arco coseno" onclick="scientificFunction('acos')">acos</button>
+                <button class="btn btn-function tooltip" data-tooltip="Arco tangente" onclick="scientificFunction('atan')">atan</button>
+                <button class="btn btn-function tooltip" data-tooltip="Exponencial" onclick="scientificFunction('exp')">e^x</button>
+                <button class="btn btn-function tooltip" data-tooltip="Potencia de 10" onclick="scientificFunction('10pow')">10^x</button>
+                
+                <button class="btn btn-function tooltip" data-tooltip="Pi" onclick="insertConstant('pi')">π</button>
+                <button class="btn btn-function tooltip" data-tooltip="Euler" onclick="insertConstant('e')">e</button>
+                <button class="btn btn-function tooltip" data-tooltip="Raíz cuadrada" onclick="scientificFunction('sqrt')">√</button>
+                <button class="btn btn-function tooltip" data-tooltip="Potencia" onclick="inputOperator('^')">x^y</button>
+                <button class="btn btn-function tooltip" data-tooltip="Factorial" onclick="scientificFunction('fact')">x!</button>
+            </div>
+        </div>
+
+        <div class="button-grid">
+            <button class="btn btn-clear" onclick="clearAll()">AC</button>
+            <button class="btn btn-clear" onclick="clearEntry()">CE</button>
+            <button class="btn btn-operator" onclick="deleteLast()">⌫</button>
+            <button class="btn btn-operator" onclick="inputOperator('/')">/</button>
+            <button class="btn btn-function" onclick="toggleSign()">±</button>
+
+            <button class="btn btn-number" onclick="inputNumber('7')">7</button>
+            <button class="btn btn-number" onclick="inputNumber('8')">8</button>
+            <button class="btn btn-number" onclick="inputNumber('9')">9</button>
+            <button class="btn btn-operator" onclick="inputOperator('*')">×</button>
+            <button class="btn btn-function" onclick="inputOperator('(')">(</button>
+
+            <button class="btn btn-number" onclick="inputNumber('4')">4</button>
+            <button class="btn btn-number" onclick="inputNumber('5')">5</button>
+            <button class="btn btn-number" onclick="inputNumber('6')">6</button>
+            <button class="btn btn-operator" onclick="inputOperator('-')">-</button>
+            <button class="btn btn-function" onclick="inputOperator(')')">)</button>
+
+            <button class="btn btn-number" onclick="inputNumber('1')">1</button>
+            <button class="btn btn-number" onclick="inputNumber('2')">2</button>
+            <button class="btn btn-number" onclick="inputNumber('3')">3</button>
+            <button class="btn btn-operator" onclick="inputOperator('+')">+</button>
+            <button class="btn btn-function" onclick="inputDecimal()">.</button>
+
+            <button class="btn btn-number btn-zero" onclick="inputNumber('0')">0</button>
+            <button class="btn btn-equals" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let history = document.getElementById('history');
+        let currentInput = '0';
+        let shouldResetDisplay = false;
+        let memory = 0;
+        let lastOperation = '';
+        let isDegreeMode = true;
+
+        // Funciones de entrada
+        function inputNumber(num) {
+            addRippleEffect(event.target);
+            if (shouldResetDisplay || currentInput === '0') {
+                currentInput = num;
+                shouldResetDisplay = false;
+            } else {
+                currentInput += num;
+            }
+            updateDisplay();
+        }
+
+        function inputOperator(op) {
+            addRippleEffect(event.target);
+            if (currentInput === '' || currentInput === '0') return;
+            
+            if (op === '^') {
+                currentInput += '**';
+            } else if (op === '*') {
+                currentInput += '*';
+            } else {
+                currentInput += op;
+            }
+            updateDisplay();
+        }
+
+        function inputDecimal() {
+            addRippleEffect(event.target);
+            if (shouldResetDisplay) {
+                currentInput = '0.';
+                shouldResetDisplay = false;
+            } else if (!currentInput.includes('.')) {
+                currentInput += '.';
+            }
+            updateDisplay();
+        }
+
+        // Funciones de limpieza
+        function clearAll() {
+            addRippleEffect(event.target);
+            currentInput = '0';
+            history.textContent = '';
+            updateDisplay();
+        }
+
+        function clearEntry() {
+            addRippleEffect(event.target);
+            currentInput = '0';
+            updateDisplay();
+        }
+
+        function deleteLast() {
+            addRippleEffect(event.target);
+            if (currentInput.length > 1) {
+                currentInput = currentInput.slice(0, -1);
+            } else {
+                currentInput = '0';
+            }
+            updateDisplay();
+        }
+
+        function toggleSign() {
+            addRippleEffect(event.target);
+            if (currentInput !== '0') {
+                if (currentInput.startsWith('-')) {
+                    currentInput = currentInput.substring(1);
+                } else {
+                    currentInput = '-' + currentInput;
+                }
+                updateDisplay();
+            }
+        }
+
+        // Funciones científicas
+        function scientificFunction(func) {
+            addRippleEffect(event.target);
+            try {
+                let value = parseFloat(currentInput);
+                let result;
+
+                switch (func) {
+                    case 'sin':
+                        result = Math.sin(isDegreeMode ? value * Math.PI / 180 : value);
+                        break;
+                    case 'cos':
+                        result = Math.cos(isDegreeMode ? value * Math.PI / 180 : value);
+                        break;
+                    case 'tan':
+                        result = Math.tan(isDegreeMode ? value * Math.PI / 180 : value);
+                        break;
+                    case 'asin':
+                        result = Math.asin(value);
+                        if (isDegreeMode) result = result * 180 / Math.PI;
+                        break;
+                    case 'acos':
+                        result = Math.acos(value);
+                        if (isDegreeMode) result = result * 180 / Math.PI;
+                        break;
+                    case 'atan':
+                        result = Math.atan(value);
+                        if (isDegreeMode) result = result * 180 / Math.PI;
+                        break;
+                    case 'ln':
+                        result = Math.log(value);
+                        break;
+                    case 'log':
+                        result = Math.log10(value);
+                        break;
+                    case 'exp':
+                        result = Math.exp(value);
+                        break;
+                    case '10pow':
+                        result = Math.pow(10, value);
+                        break;
+                    case 'sqrt':
+                        result = Math.sqrt(value);
+                        break;
+                    case 'fact':
+                        result = factorial(value);
+                        break;
+                }
+
+                if (isNaN(result) || !isFinite(result)) {
+                    throw new Error('Resultado inválido');
+                }
+
+                history.textContent = `${func}(${currentInput}) =`;
+                currentInput = formatResult(result);
+                shouldResetDisplay = true;
+                updateDisplay();
+            } catch (error) {
+                showError('Error en cálculo');
+            }
+        }
+
+        function factorial(n) {
+            if (n < 0 || n !== Math.floor(n)) throw new Error('Factorial de número negativo o decimal');
+            if (n > 170) throw new Error('Número demasiado grande');
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        function insertConstant(constant) {
+            addRippleEffect(event.target);
+            if (shouldResetDisplay || currentInput === '0') {
+                currentInput = constant === 'pi' ? Math.PI.toString() : Math.E.toString();
+                shouldResetDisplay = false;
+            } else {
+                currentInput += constant === 'pi' ? Math.PI.toString() : Math.E.toString();
+            }
+            updateDisplay();
+        }
+
+        // Funciones de memoria
+        function memoryClear() {
+            addRippleEffect(event.target);
+            memory = 0;
+            showTemporaryMessage('Memoria limpiada');
+        }
+
+        function memoryRecall() {
+            addRippleEffect(event.target);
+            currentInput = memory.toString();
+            shouldResetDisplay = true;
+            updateDisplay();
+        }
+
+        function memoryAdd() {
+            addRippleEffect(event.target);
+            try {
+                memory += parseFloat(currentInput);
+                showTemporaryMessage('Agregado a memoria');
+            } catch (error) {
+                showError('Error al agregar a memoria');
+            }
+        }
+
+        function memorySubtract() {
+            addRippleEffect(event.target);
+            try {
+                memory -= parseFloat(currentInput);
+                showTemporaryMessage('Sustraído de memoria');
+            } catch (error) {
+                showError('Error al sustraer de memoria');
+            }
+        }
+
+        // Función de cálculo principal
+        function calculate() {
+            addRippleEffect(event.target);
+            try {
+                let expression = currentInput.replace(/\*\*/g, '^');
+                history.textContent = expression + ' =';
+                
+                // Reemplazar operadores para evaluación
+                let evalExpression = currentInput.replace(/\^/g, '**');
+                
+                // Evaluar expresión de forma segura
+                let result = Function('"use strict"; return (' + evalExpression + ')')();
+                
+                if (isNaN(result) || !isFinite(result)) {
+                    throw new Error('Resultado inválido');
+                }
+
+                currentInput = formatResult(result);
+                shouldResetDisplay = true;
+                updateDisplay();
+            } catch (error) {
+                showError('Error de sintaxis');
+            }
+        }
+
+        // Funciones de utilidad
+        function updateDisplay() {
+            display.value = currentInput;
+            display.classList.remove('error');
+        }
+
+        function showError(message) {
+            display.value = message;
+            display.classList.add('error');
+            currentInput = '0';
+            shouldResetDisplay = true;
+            setTimeout(() => {
+                updateDisplay();
+            }, 2000);
+        }
+
+        function formatResult(result) {
+            if (Math.abs(result) > 1e15 || (Math.abs(result) < 1e-15 && result !== 0)) {
+                return result.toExponential(6);
+            }
+            
+            let formatted = result.toString();
+            if (formatted.length > 12) {
+                return parseFloat(result.toPrecision(10)).toString();
+            }
+            return formatted;
+        }
+
+        function showTemporaryMessage(message) {
+            let originalText = history.textContent;
+            history.textContent = message;
+            setTimeout(() => {
+                history.textContent = originalText;
+            }, 1500);
+        }
+
+        function addRippleEffect(button) {
+            let ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            
+            let rect = button.getBoundingClientRect();
+            let size = Math.max(rect.width, rect.height);
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (event.clientX - rect.left - size / 2) + 'px';
+            ripple.style.top = (event.clientY - rect.top - size / 2) + 'px';
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+
+        function switchMode(mode) {
+            let options = document.querySelectorAll('.toggle-option');
+            let scientificPanel = document.getElementById('scientificPanel');
+            
+            options.forEach(option => option.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (mode === 'scientific') {
+                scientificPanel.classList.add('active');
+            } else {
+                scientificPanel.classList.remove('active');
+            }
+        }
+
+        // Soporte para teclado
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+            
+            if (key >= '0' && key <= '9') {
+                inputNumber(key);
+            } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+                inputOperator(key === '*' ? '*' : key);
+            } else if (key === '.') {
+                inputDecimal();
+            } else if (key === 'Enter' || key === '=') {
+                calculate();
+            } else if (key === 'Escape') {
+                clearAll();
+            } else if (key === 'Backspace') {
+                deleteLast();
+            } else if (key === '(' || key === ')') {
+                inputOperator(key);
+            }
+        });
+
+        // Inicialización
+        updateDisplay();
+    </script>
+</body>
+</html>
