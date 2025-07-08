@@ -182,15 +182,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Iniciar servidor
-app.listen(PORT, () => {
-    console.log(`🚀 Servidor funcionando en puerto ${PORT}`);
-    console.log(`📁 Sirviendo archivos estáticos desde: ${path.join(__dirname, '../public')}`);
-    console.log(`🌐 Aplicación disponible en: http://localhost:${PORT}`);
-    console.log(`📊 Health check disponible en: http://localhost:${PORT}/health`);
-}); 
-
-
 // Middleware de seguridad
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
